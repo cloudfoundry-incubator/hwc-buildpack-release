@@ -1,0 +1,5 @@
+#!/bin/bash
+set -e -x
+
+mkdir -p "${BOSH_INSTALL_TARGET}/bin"
+cp cf-cli/cf.exe "${BOSH_INSTALL_TARGET}/bin/cf"

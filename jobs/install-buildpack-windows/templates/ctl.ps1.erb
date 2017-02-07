@@ -1,0 +1,26 @@
+# Common env vars, needed by more than one of the deploy.sh scripts (for apps-manager-js, app-usage-service, and invitations)
+$env:SYSTEM_DOMAIN=<%= esc p("cf.system_domain") %>
+$env:CF_USERNAME=<%= esc p("cf.admin_username") %>
+$env:CF_PASSWORD=<%= esc p("cf.admin_password") %>
+$env:TARGET_ORG=system
+$env:TARGET_SPACE=system
+$env:CLOUD_CONTROLLER_URL=<%= esc p("cf.api_url") %>
+$env:SKIP_SSL_VALIDATION=<%= esc p("ssl.skip_cert_verify") %>
+
+if ( $Env:SKIP_SSL_VALIDATION -eq "true" ) {
+  cf api $Env:CLOUD_CONTROLLER_URL --skip-ssl-validation
+} else {
+  cf api $Env:CLOUD_CONTROLLER_URL
+}
+
+cf auth $Env:CF_USERNAME $Env:CF_PASSWORD
+cf target -o $Env:TARGET_ORG -s $Env:TARGET_SPACE
+
+# cf update-buildpack ...............
+## or
+# cf create-buildpack ...............
+
+cf buildpacks
+
+(Get-Item -Path ".\" -Verbose).FullName
+Get-ChildItem -Recurse
