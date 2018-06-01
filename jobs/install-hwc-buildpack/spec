@@ -5,6 +5,7 @@ templates:
 packages:
   - cf-cli
   - hwc-buildpack-windows
+  - binary-buildpack-windows
 properties:
   cf.api_url:
     description: "Cloud Foundry API server URL (cloud controller)"

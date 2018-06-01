@@ -28,8 +28,13 @@ runCf "auth", "$env:CF_USERNAME", "$env:CF_PASSWORD"
 
 $hwcBuildpack = Get-Item("C:\var\vcap\packages\hwc-buildpack-windows\hwc*.zip")
 
-$hasBuildpack = $false
-$unlocked = $false
+$hasHwcBuildpack = $false
+$hwcUnlocked = $false
+
+$binaryBuildpack = Get-Item("C:\var\vcap\packages\binary-buildpack-windows\binary*.zip")
+
+$hasBinaryBuildpack = $false
+$binaryUnlocked = $false
 
 $option = [System.StringSplitOptions]::RemoveEmptyEntries
 $buildpacks = (runCf "buildpacks").Split("\n", $option)
@@ -38,15 +43,28 @@ foreach ($bp in $buildpacks) {
   $bpName, $bpPos, $bpEnabled, $bpLocked, $ignore = $bp.Split(" ", $option)
 
   if ($bpName -eq "hwc_buildpack") {
-    $hasBuildpack = $true
-    $unlocked = ($bpLocked -eq "false")
+    $hasHwcBuildpack = $true
+    $hwcUnlocked = ($bpLocked -eq "false")
+  }
+
+  if ($bpName -eq "binary_buildpack") {
+    $hasBinaryBuildpack = $true
+    $binaryUnlocked = ($bpLocked -eq "false")
   }
 }
 
-if (-not $hasBuildpack) {
+if (-not $hasHwcBuildpack) {
   runCf "create-buildpack", "hwc_buildpack", "$hwcBuildpack", "1", "--enable"
-} elseif ($unlocked) {
+} elseif ($hwcUnlocked) {
   runCf "update-buildpack", "hwc_buildpack", "-p", "$hwcBuildpack"
 } else {
   Write-Host "HWC Buildpack is locked, skipping update"
+}
+
+if (-not $hasBinaryBuildpack) {
+  runCf "create-buildpack", "binary_buildpack", "$binaryBuildpack", "1", "--enable"
+} elseif ($binaryUnlocked) {
+  runCf "update-buildpack", "binary_buildpack", "-p", "$binaryBuildpack"
+} else {
+  Write-Host "Binary Buildpack is locked, skipping update"
 }

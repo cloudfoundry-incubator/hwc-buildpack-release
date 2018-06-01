@@ -1,0 +1,3 @@
+set -e -x
+filename=$(basename binary-buildpack/binary-buildpack-*.zip)
+cat binary-buildpack/binary-buildpack-*.zip > ${BOSH_INSTALL_TARGET}/$filename

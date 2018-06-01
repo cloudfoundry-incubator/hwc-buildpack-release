@@ -1,0 +1,9 @@
+---
+name: binary-buildpack
+
+templates: {}
+
+packages:
+- binary-buildpack
+
+properties: {}

@@ -1,0 +1,2 @@
+$binaryBuildpack = Get-Item("binary-buildpack\binary*.zip")
+Copy-Item $binaryBuildpack "${env:BOSH_INSTALL_TARGET}"

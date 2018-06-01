@@ -1,3 +1,6 @@
+binary-buildpack/binary-buildpack-v1.0.18.zip:
+  size: 3693478
+  sha: 1a054e52bdb79d97c559ce82a8487cb95e3ecaa1
 cf-cli/cf-cli_6.23.1_winx64.zip:
   size: 6759874
   object_id: 714004cc-3db1-495b-b4a2-434153dc2432
